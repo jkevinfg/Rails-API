@@ -3,8 +3,8 @@ require "rails_helper"
 RSpec.describe "Posts", type: :request do 
     
     #context: db is empty
-    describe "GET /post" do 
-        before { get '/post' }
+    describe "GET /posts" do 
+        before { get '/posts' }
 
         it "should return ok" do
             payload = JSON.parse(response.body)
@@ -15,9 +15,9 @@ RSpec.describe "Posts", type: :request do
 
     # with data in the db
     describe "with data in the DB" do 
-        before { get '/post' }
+        let!(:posts) { create_list(:post, 10, published: true) } # dos formas , let y let! 
+        before { get '/posts' }
 
-        let(:posts) { create_list(:post, 10, published: true) }
         it "should return all the published posts" do 
             payload = JSON.parse(response.body)
             expect(payload.size).to eq(posts.size) 
@@ -26,15 +26,23 @@ RSpec.describe "Posts", type: :request do
     end
 
     #show
-    describe "GET /post/{id}" do 
+    describe "GET /posts/{id}" do 
         let(:post) { create(:post) }
         
         it "should return a post" do
-            get "/post/#{post.id}"
+            get "/posts/#{post.id}" 
             payload = JSON.parse(response.body)
-            expect(payload).to_not be_empty
+            expect(payload).not_to be_empty
             expect(payload["id"]).to eq(post.id)
             expect(response).to have_http_status(200)
         end
+
+        it "should return 404 if post not exists" do 
+            get "/posts/0"
+
+            expect(response).to have_http_status(404)
+        end
     end
+
+
 end

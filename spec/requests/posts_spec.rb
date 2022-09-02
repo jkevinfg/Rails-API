@@ -56,12 +56,12 @@ RSpec.describe "Posts", type: :request do
                     user_id: user.id
                 }
             } 
-        # POST HTTP
-        post "/posts", params: req_payload
-        payload = JSON.parse(response.body)
-        expect(payload).to_not be_empty
-        expect(payload["id"]).to_not be_empty
-        expect(response).to have_http_status(:created)
+            # POST HTTP
+            post "/posts", params: req_payload
+            payload = JSON.parse(response.body)
+            expect(payload).to_not be_empty
+            expect(payload["id"]).to_not be_nil
+            expect(response).to have_http_status(:created)
         end
 
         it "should return error message on invalid post" do
@@ -112,7 +112,7 @@ RSpec.describe "Posts", type: :request do
             put "/posts/#{article.id}", params: req_payload
             payload = JSON.parse(response.body)
             expect(payload).to_not be_empty
-            expect(payload["error"]).to eq(article.id)
+            expect(payload["error"]).to_not be_empty
             expect(response).to have_http_status(:unprocessable_entity)
         end
     end

@@ -10,3 +10,4 @@ class PostSerializer < ActiveModel::Serializer
     }
   end
 end
+

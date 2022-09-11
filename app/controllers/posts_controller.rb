@@ -24,18 +24,21 @@ class PostsController < ApplicationController
         if @post.nil?
             return render json: { message: "Post not exist" }, status: :not_found 
         end
-        render json: @post, status: :ok
+        if (@post.published? || (Current.user && @post.user_id == Current.user.id))
+            return render json: @post, status: :ok
+        end
+        render json: { error: 'Not Found' }, status: :not_found
     end
 
     # POST /posts
     def create
-        @post = Post.create!(create_params) # ! => lanza excepcion sobre las validaciones
+        @post = Current.user.posts.create!(create_params) # ! => lanza excepcion sobre las validaciones
         render json: @post, status: :created
     end
 
     # PUT /posts/{id}
     def update
-        @post = Post.find_by(id: params[:id])
+        @post = Current.user.posts.find_by(id: params[:id])
         @post.update!(update_params)
         render json: @post, status: :ok
     end
@@ -43,7 +46,7 @@ class PostsController < ApplicationController
     private
 
     def create_params
-        params.require(:post).permit(:title, :content, :published, :user_id)
+        params.require(:post).permit(:title, :content, :published)
     end
 
     def update_params

@@ -4,7 +4,7 @@ class User < ApplicationRecord
     validates :name, presence: true
     validates :auth_token, presence: true
 
-    after_initialiaze :generate_auth_token #se ejecuta apenas se inicializa el objeto user 
+    after_initialize :generate_auth_token #se ejecuta apenas se inicializa el objeto user 
 
     def generate_auth_token
         unless auth_token.present? 

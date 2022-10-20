@@ -1,6 +1,6 @@
 class PostsController < ApplicationController
     include Secured
-    before_action :authenticate_user!, only: [:create, :update] #verificar que esta autenticado antes del create y update 
+    before_action :authenticate_user!, only: [:create, :update, :posts_user] #verificar que esta autenticado antes del create y update
 
     rescue_from Exception do |e|
         render json: { error: e.message }, status: :internal_server_error
@@ -30,6 +30,11 @@ class PostsController < ApplicationController
             return render json: @post, status: :ok
         end
         render json: { error: 'Not Found' }, status: :not_found
+    end
+
+    def posts_user
+        @posts = Current.user.posts
+        render json: @posts, status: :created
     end
 
     # POST /posts

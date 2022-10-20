@@ -4,5 +4,6 @@ Rails.application.routes.draw do
   get '/health', to: 'health#health' #to: controller#method 
 
   resources :posts, only: [:index, :show, :create, :update]
+  get '/posts_user', to: 'posts#posts_user'
 
 end

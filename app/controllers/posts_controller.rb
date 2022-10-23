@@ -32,9 +32,10 @@ class PostsController < ApplicationController
         render json: { error: 'Not Found' }, status: :not_found
     end
 
+    # /GET /user/posts
     def posts_user
         @posts = Current.user.posts
-        render json: @posts, status: :created
+        render json: @posts, status: :ok
     end
 
     # POST /posts

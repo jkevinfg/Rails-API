@@ -1,8 +1,12 @@
 class PostReportJob < ApplicationJob
   queue_as :default
 
-  def perform(post_id)
+  def perform(user_id, post_id)
+    user = User.find(user_id)
     post = Post.find(post_id)
-    PostReport.generate(post)
+    report = PostReport.generate(post)
+
+    PostReportMailer.post_report(user, post, report).deliver_now
   end
+  # rails c PostReportJob.perform_later(User.first.id, Post.first.id)
 end

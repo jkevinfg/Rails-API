@@ -1,24 +1,20 @@
-# README
+##  TDD Ruby on Rails
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+API siguiendo el desarrollo guiado por pruebas (TDD).
 
-Things you may want to cover:
+### Diagrama relacional
+![tdd-ruby](https://jkevinfg.com/img/projects/rails.png)
 
-* Ruby version
 
-* System dependencies
+Gemas utilizadas:
+* Rspec (gem testing)
+* Factory bot (crear modelos falsos)
+* Faker (generar datos fake)
 
-* Configuration
+Adicionalmente implementé:
+* ActiveJob (trabajo en segundo plano)
+* ActiveMailer (enviar reporte)
 
-* Database creation
 
-* Database initialization
 
-* How to run the test suite
 
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...

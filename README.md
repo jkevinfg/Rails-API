@@ -3,7 +3,7 @@
 API siguiendo el desarrollo guiado por pruebas (TDD).
 
 ### Diagrama relacional
-![tdd-ruby](https://jkevinfg.com/img/projects/rails.png)
+![tdd-ruby](https://jkevinfg.com/img/projects/diagrama-rails.png)
 
 
 Gemas utilizadas:

@@ -40,11 +40,11 @@ RSpec.describe "Posts", type: :request do
     end
 
     #show
-    describe "GET /post/{id}" do 
-        let(:post) { create(:post, published: true) }
-        
+    describe "GET /post/{id}" do
+        let!(:post) { create(:post, published: true) }
+
         it "should return a post" do
-            get "/posts/#{post.id}" 
+            get "/posts/#{post.id}"
             payload = JSON.parse(response.body)
             expect(payload).to_not be_empty
             expect(payload["id"]).to eq(post.id)

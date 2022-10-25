@@ -1,8 +1,13 @@
 ##  TDD Ruby on Rails
 
-API siguiendo el desarrollo guiado por pruebas (TDD).
-
-### Diagrama relacional
+### Iniciar el proyecto
+```
+- rake db:create
+- rake db:migrate
+- rake db:seed 
+- rails server
+```
+#### Diagrama relacional
 ![tdd-ruby](https://jkevinfg.com/img/projects/diagramabd.png)
 
 #### Endpoints
@@ -28,9 +33,13 @@ Gemas utilizadas:
 * letter_opener (visualizar mailer)
 
 Adicionalmente implementé:
+* Caching (busqueda de un post)
 * ActiveJob (trabajo en segundo plano)
 * ActiveMailer (enviar reporte)
-* Caching (busqueda de un post)
+```
+#prueba 
+PostReportMailer.post_report(User.first, Post.first, PostReport.generate(Post.first)).deliver_now
+```
 
 
 

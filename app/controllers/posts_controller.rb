@@ -1,6 +1,6 @@
 class PostsController < ApplicationController
     include Secured
-    before_action :authenticate_user!, only: [:create, :update]
+    before_action :authenticate_user!, only: [:create, :update, :unpublished_posts]
 
     rescue_from Exception do |e|
         render json: { error: e.message }, status: :internal_server_error
@@ -16,25 +16,31 @@ class PostsController < ApplicationController
 
     #GET /posts
     def index
-        posts = Post.where(published: true) # posts publics
+        posts = Post.where(published: true) # all posts published
         if !params[:search].nil? && params[:search].present?
             posts = PostsSearchService.search(posts, params[:search])
         end
-        render json: posts
+        render json: posts, status: :ok
     end
 
     #GET /posts/{id}
-    def show #show post public
+    def show #show post published
         post = Post.find(params[:id])
         if post.published?
             return render json: post, status: :ok
         end
-        render json: { error: 'Not Found' }, status: :not_found
+        render json: { error: 'Post is not published' }, status: :unprocessable_entity
+    end
+
+    #GET /posts/unpublished
+    def unpublished_posts
+        posts = Current.user.posts.where(published: false)
+        render json: posts, status: :ok
     end
 
     #POST /posts
     def create
-        post = Current.user.posts.create!(create_params) # ! => lanza excepcion sobre las validaciones
+        post = Current.user.posts.create!(create_params)
         render json: post, status: :created
     end
 

@@ -14,7 +14,7 @@ class PostsController < ApplicationController
         render json: { error: e.message }, status: :unprocessable_entity
     end
 
-    #GET /posts
+    #GET /posts?search=title
     def index
         posts = Post.where(published: true) # all posts published
         if !params[:search].nil? && params[:search].present?
